@@ -55,6 +55,10 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -74,11 +78,11 @@
 						</goals>
 					</execution>
 				</executions>
-				<configuration>
-					<configurationFile>src/main/resources/hibernate.cfg.xml</configurationFile>
-					<outputDirectory>src/main/java</outputDirectory>
-					<packageName>com.yourpackage.entities</packageName>
-				</configuration>
+<!--				<configuration>-->
+<!--					<configurationFile>src/main/resources/hibernate.cfg.xml</configurationFile>-->
+<!--					<outputDirectory>src/main/java</outputDirectory>-->
+<!--					<packageName>com.yourpackage.entities</packageName>-->
+<!--				</configuration>-->
 			</plugin>
 		</plugins>
 	</build>

@@ -45,8 +45,6 @@ public class ActorService {
             throw new RuntimeException("Actor not found with ID: " + id);
         }
         Actor actor = actorRepository.findById(id).get(); // managed entity
-//        actor.getFilms();
-//        actor.setFilms(null);
         actorRepository.deleteById(id);
     }
 
