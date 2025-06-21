@@ -67,6 +67,16 @@ public class Film {
         G, PG, PG_13, R, NC_17
     }
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "film_category",
+            joinColumns = @JoinColumn(name = "film_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private List<Category> categories;
+
+    // Getters and setters
+
     public Integer getFilmId() {
         return filmId;
     }
@@ -181,5 +191,12 @@ public class Film {
         this.actors = actors;
     }
 
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
 
 }
