@@ -4,6 +4,7 @@ import com.example.pagila_api.model.Rental;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.NativeQuery;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -57,7 +58,7 @@ public interface RentalRepository extends JpaRepository<Rental, Integer> {
     List<Rental> findByReturnDateBetween(LocalDateTime startDate, LocalDateTime endDate);
 
     // Overdue rentals
-    @Query("SELECT r FROM Rental r " +
+    @NativeQuery("SELECT r FROM Rental r " +
             "JOIN r.inventory i " +
             "JOIN i.film f " +
             "WHERE r.returnDate IS NULL " +

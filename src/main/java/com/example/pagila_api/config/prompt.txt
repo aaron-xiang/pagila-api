@@ -1,0 +1,4 @@
+implement an endpoint to meet the following requirements
+1. authenticate user with username and password
+2. generate jwt token
+3. comply with oauth2 flow

@@ -168,16 +168,16 @@ public class Rental {
     }
 
     @PrePersist
-    @PreUpdate
-    public void setLastUpdate() {
+    public void onPrePersist() {
         this.lastUpdate = LocalDateTime.now();
-    }
-
-    @PrePersist
-    public void setRentalDate() {
         if (this.rentalDate == null) {
             this.rentalDate = LocalDateTime.now();
         }
+    }
+
+    @PreUpdate
+    public void onPreUpdate() {
+        this.lastUpdate = LocalDateTime.now();
     }
 
     @Override
