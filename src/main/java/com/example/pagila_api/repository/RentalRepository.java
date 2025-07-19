@@ -47,7 +47,7 @@ public interface RentalRepository extends JpaRepository<Rental, Integer> {
     // Inventory rentals
     List<Rental> findByInventoryId(Integer inventoryId);
 
-    @Query("SELECT r FROM Rental r WHERE r.inventoryId = :inventoryId AND r.returnDate IS NULL")
+    @Query("SELECT r FROM Rental r WHERE r.inventory.inventoryId = :inventoryId AND r.returnDate IS NULL")
     Optional<Rental> findActiveRentalByInventoryId(@Param("inventoryId") Integer inventoryId);
 
     // Date range queries
@@ -58,7 +58,7 @@ public interface RentalRepository extends JpaRepository<Rental, Integer> {
     List<Rental> findByReturnDateBetween(LocalDateTime startDate, LocalDateTime endDate);
 
     // Overdue rentals
-    @NativeQuery("SELECT r FROM Rental r " +
+    @Query("SELECT r FROM Rental r " +
             "JOIN r.inventory i " +
             "JOIN i.film f " +
             "WHERE r.returnDate IS NULL " +
@@ -66,23 +66,22 @@ public interface RentalRepository extends JpaRepository<Rental, Integer> {
     List<Rental> findOverdueRentals(@Param("overdueDate") LocalDateTime overdueDate);
 
     @Query("SELECT r FROM Rental r " +
-            "JOIN r.inventory i " +
-            "JOIN i.film f " +
-            "WHERE r.returnDate IS NULL " +
-            "AND r.rentalDate + INTERVAL f.rentalDuration DAY < CURRENT_TIMESTAMP")
+            "JOIN FETCH r.inventory i " +
+            "JOIN FETCH i.film f " +
+            "WHERE r.returnDate IS NULL")
     List<Rental> findOverdueRentalsBasedOnFilmDuration();
 
     // Statistics queries
-    @Query("SELECT COUNT(r) FROM Rental r WHERE r.customerId = :customerId")
+    @Query("SELECT COUNT(r) FROM Rental r WHERE r.customer.customerId = :customerId")
     Long countRentalsByCustomerId(@Param("customerId") Integer customerId);
 
-    @Query("SELECT COUNT(r) FROM Rental r WHERE r.staffId = :staffId")
+    @Query("SELECT COUNT(r) FROM Rental r WHERE r.staff.staffId = :staffId")
     Long countRentalsByStaffId(@Param("staffId") Integer staffId);
 
     @Query("SELECT COUNT(r) FROM Rental r WHERE r.returnDate IS NULL")
     Long countActiveRentals();
 
-    @Query("SELECT COUNT(r) FROM Rental r WHERE r.customerId = :customerId AND r.returnDate IS NULL")
+    @Query("SELECT COUNT(r) FROM Rental r WHERE r.customer.customerId = :customerId AND r.returnDate IS NULL")
     Long countActiveRentalsByCustomerId(@Param("customerId") Integer customerId);
 
     // Top customers
@@ -99,16 +98,16 @@ public interface RentalRepository extends JpaRepository<Rental, Integer> {
                                                      @Param("endDate") LocalDateTime endDate);
 
     // Film popularity
-    @Query("SELECT i.filmId, COUNT(r) as rentalCount FROM Rental r " +
+    @Query("SELECT i.film.filmId, COUNT(r) as rentalCount FROM Rental r " +
             "JOIN r.inventory i " +
-            "GROUP BY i.filmId " +
+            "GROUP BY i.film.filmId " +
             "ORDER BY rentalCount DESC")
     List<Object[]> findMostRentedFilms();
 
     // Store performance
-    @Query("SELECT s.storeId, COUNT(r) as rentalCount FROM Rental r " +
+    @Query("SELECT s.store.storeId, COUNT(r) as rentalCount FROM Rental r " +
             "JOIN r.staff s " +
-            "GROUP BY s.storeId " +
+            "GROUP BY s.store.storeId " +
             "ORDER BY rentalCount DESC")
     List<Object[]> findRentalCountByStore();
 }
