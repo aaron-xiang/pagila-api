@@ -36,7 +36,7 @@ public interface RentalRepository extends JpaRepository<Rental, Integer> {
 
     Page<Rental> findByCustomerId(Integer customerId, Pageable pageable);
 
-    @Query("SELECT r FROM Rental r WHERE r.customerId = :customerId AND r.returnDate IS NULL")
+    @Query("SELECT r FROM Rental r WHERE r.customer.customerId = :customerId AND r.returnDate IS NULL")
     List<Rental> findActiveRentalsByCustomerId(@Param("customerId") Integer customerId);
 
     // Staff rentals
@@ -85,8 +85,8 @@ public interface RentalRepository extends JpaRepository<Rental, Integer> {
     Long countActiveRentalsByCustomerId(@Param("customerId") Integer customerId);
 
     // Top customers
-    @Query("SELECT r.customerId, COUNT(r) as rentalCount FROM Rental r " +
-            "GROUP BY r.customerId " +
+    @Query("SELECT r.customer.customerId, COUNT(r) as rentalCount FROM Rental r " +
+            "GROUP BY r.customer.customerId " +
             "ORDER BY rentalCount DESC")
     List<Object[]> findTopCustomersByRentalCount();
 

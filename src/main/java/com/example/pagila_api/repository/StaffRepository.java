@@ -71,13 +71,13 @@ public interface StaffRepository extends JpaRepository<Staff, Integer> {
     List<Staff> findNonManagers();
 
     // Performance queries
-    @Query("SELECT COUNT(r) FROM Rental r WHERE r.staffId = :staffId")
+    @Query("SELECT COUNT(r) FROM Rental r WHERE r.staff.staffId = :staffId")
     Long countRentalsByStaffId(@Param("staffId") Integer staffId);
 
-    @Query("SELECT COUNT(p) FROM Payment p WHERE p.staffId = :staffId")
+    @Query("SELECT COUNT(p) FROM Payment p WHERE p.staff.staffId = :staffId")
     Long countPaymentsByStaffId(@Param("staffId") Integer staffId);
 
-    @Query("SELECT COUNT(r) FROM Rental r WHERE r.staffId = :staffId AND r.rentalDate BETWEEN :startDate AND :endDate")
+    @Query("SELECT COUNT(r) FROM Rental r WHERE r.staff.staffId = :staffId AND r.rentalDate BETWEEN :startDate AND :endDate")
     Long countRentalsByStaffIdAndDateRange(@Param("staffId") Integer staffId,
                                            @Param("startDate") LocalDateTime startDate,
                                            @Param("endDate") LocalDateTime endDate);
