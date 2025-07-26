@@ -8,6 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional(readOnly = true)
 public class FilmService {
@@ -20,6 +22,10 @@ public class FilmService {
 
     public Page<Film> getAllFilms(Pageable pageable) {
         return filmRepository.findAll(pageable);
+    }
+
+    public List<Film> getAllFilms() {
+        return filmRepository.findAll();
     }
 
     public Film getFilmById(Integer id) {
@@ -67,4 +73,6 @@ public class FilmService {
     public Page<Film> searchFilmsByTitle(String title, Pageable pageable) {
         return filmRepository.findByTitleContainingIgnoreCase(title, pageable);
     }
+
+
 }
