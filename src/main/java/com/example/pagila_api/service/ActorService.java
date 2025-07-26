@@ -1,5 +1,6 @@
 package com.example.pagila_api.service;
 
+import com.example.pagila_api.exception.ResourceNotFoundException;
 import com.example.pagila_api.model.Actor;
 import com.example.pagila_api.repository.ActorRepository;
 import jakarta.transaction.Transactional;
@@ -22,7 +23,7 @@ public class ActorService {
 
     public Actor getActorById(int id) {
         return actorRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Actor not found with ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Actor not found with ID: " + id));
     }
 
     public Actor addActor(Actor actor) {
@@ -31,7 +32,7 @@ public class ActorService {
 
     public Actor updateActor(int id, Actor updatedActor) {
         Actor existingActor = actorRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Actor not found with ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Actor not found with ID: " + id));
 
         existingActor.setFirstName(updatedActor.getFirstName());
         existingActor.setLastName(updatedActor.getLastName());
@@ -42,7 +43,7 @@ public class ActorService {
     @Transactional
     public void deleteActorById(int id) {
         if (!actorRepository.existsById(id)) {
-            throw new RuntimeException("Actor not found with ID: " + id);
+            throw new ResourceNotFoundException("Actor not found with ID: " + id);
         }
         Actor actor = actorRepository.findById(id).get(); // managed entity
         actorRepository.deleteById(id);

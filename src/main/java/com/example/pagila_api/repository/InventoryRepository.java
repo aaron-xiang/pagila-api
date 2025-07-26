@@ -28,16 +28,16 @@ public interface InventoryRepository extends JpaRepository<Inventory, Integer> {
 
     Page<Inventory> findByStoreId(Integer storeId, Pageable pageable);
 
-    @Query("SELECT i FROM Inventory i WHERE i.filmId = :filmId AND i.storeId = :storeId")
+    @Query("SELECT i FROM Inventory i WHERE i.film.filmId = :filmId AND i.store.storeId = :storeId")
     List<Inventory> findByFilmIdAndStoreId(@Param("filmId") Integer filmId, @Param("storeId") Integer storeId);
 
-    @Query("SELECT COUNT(i) FROM Inventory i WHERE i.filmId = :filmId")
+    @Query("SELECT COUNT(i) FROM Inventory i WHERE i.film.filmId = :filmId")
     Long countByFilmId(@Param("filmId") Integer filmId);
 
-    @Query("SELECT COUNT(i) FROM Inventory i WHERE i.storeId = :storeId")
+    @Query("SELECT COUNT(i) FROM Inventory i WHERE i.store.storeId = :storeId")
     Long countByStoreId(@Param("storeId") Integer storeId);
 
-    @Query("SELECT COUNT(i) FROM Inventory i WHERE i.filmId = :filmId AND i.storeId = :storeId")
+    @Query("SELECT COUNT(i) FROM Inventory i WHERE i.film.filmId = :filmId AND i.store.storeId = :storeId")
     Long countByFilmIdAndStoreId(@Param("filmId") Integer filmId, @Param("storeId") Integer storeId);
 
     // Find available inventory (not currently rented)
@@ -45,11 +45,11 @@ public interface InventoryRepository extends JpaRepository<Inventory, Integer> {
             "(SELECT r.inventory.inventoryId FROM Rental r WHERE r.returnDate IS NULL)")
     List<Inventory> findAvailableInventory();
 
-    @Query("SELECT i FROM Inventory i WHERE i.filmId = :filmId AND i.inventoryId NOT IN " +
+    @Query("SELECT i FROM Inventory i WHERE i.film.filmId = :filmId AND i.inventoryId NOT IN " +
             "(SELECT r.inventory.inventoryId FROM Rental r WHERE r.returnDate IS NULL)")
     List<Inventory> findAvailableInventoryByFilmId(@Param("filmId") Integer filmId);
 
-    @Query("SELECT i FROM Inventory i WHERE i.storeId = :storeId AND i.inventoryId NOT IN " +
+    @Query("SELECT i FROM Inventory i WHERE i.store.storeId = :storeId AND i.inventoryId NOT IN " +
             "(SELECT r.inventory.inventoryId FROM Rental r WHERE r.returnDate IS NULL)")
     List<Inventory> findAvailableInventoryByStoreId(@Param("storeId") Integer storeId);
 }

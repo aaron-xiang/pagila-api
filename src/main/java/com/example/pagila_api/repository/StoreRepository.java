@@ -39,7 +39,7 @@ public interface StoreRepository extends JpaRepository<Store, Integer> {
     @Query("SELECT COUNT(i) FROM Inventory i WHERE i.storeId = :storeId")
     Long countInventoryByStoreId(@Param("storeId") Integer storeId);
 
-    @Query("SELECT COUNT(c) FROM Customer c WHERE c.storeId = :storeId")
+    @Query("SELECT COUNT(c) FROM Customer c WHERE c.store.storeId = :storeId")
     Long countCustomersByStoreId(@Param("storeId") Integer storeId);
 
     @Query("SELECT COUNT(s) FROM Staff s WHERE s.storeId = :storeId")
