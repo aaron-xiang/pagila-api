@@ -2,6 +2,7 @@ package com.example.pagila_api.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDateTime;
 import java.util.List;
 

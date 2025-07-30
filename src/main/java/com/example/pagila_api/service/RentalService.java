@@ -2,9 +2,8 @@ package com.example.pagila_api.service;
 
 import com.example.pagila_api.exception.ResourceNotFoundException;
 import com.example.pagila_api.model.Rental;
-import com.example.pagila_api.model.Inventory;
-import com.example.pagila_api.repository.RentalRepository;
 import com.example.pagila_api.repository.InventoryRepository;
+import com.example.pagila_api.repository.RentalRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

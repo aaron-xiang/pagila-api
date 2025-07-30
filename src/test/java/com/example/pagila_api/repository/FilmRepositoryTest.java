@@ -1,11 +1,13 @@
 package com.example.pagila_api.repository;
 
 import com.example.pagila_api.integration.BaseIntegrationTest;
+import com.example.pagila_api.model.Actor;
 import com.example.pagila_api.model.Film;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -75,5 +77,23 @@ class FilmRepositoryTest extends BaseIntegrationTest {
         filmRepository.deleteById(saved.getFilmId());
         Optional<Film> deleted = filmRepository.findById(saved.getFilmId());
         assertThat(deleted).isEmpty();
+    }
+
+    @Test
+    void testAddFilmActor() {
+        Film film = new Film();
+        film.setTitle("Test Film");
+        film.setDescription("A test film");
+        film.setReleaseYear(2024);
+        film.setLanguageId(1);
+        film.setReplacementCost(new BigDecimal(2));
+        film.setRentalRate(new BigDecimal(1));
+        film.setRentalDuration(3);
+        Film saved = filmRepository.save(film);
+
+        Actor actor = new Actor();
+        List<Actor> actorList = new ArrayList<>();
+
+        saved.setActors(actorList);
     }
 }
