@@ -1,0 +1,52 @@
+spring:
+  # H2 Database Configuration for Testing
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+  
+  # JPA/Hibernate Configuration for H2
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  
+  # H2 Console (useful for debugging tests)
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  
+  # Disable OAuth2 for tests
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ""
+          jwk-set-uri: ""
+      client:
+        registration:
+          google:
+            client-id: test-client-id
+            client-secret: test-client-secret
+          pagila-auth:
+            client-id: test-pagila-client
+            client-secret: test-pagila-secret
+
+# JWT Configuration for tests
+jwt:
+  secret: test-secret-key-for-testing-only-not-for-production
+  expiration: 3600000
+
+# Logging Configuration for tests
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    com.example.pagila_api: DEBUG
