@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/pagila
-    username: postgres
-    password: secret
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:pagila}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:secret}
   jpa:
     hibernate:
       ddl-auto: none
@@ -14,8 +14,8 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: https://your-auth-server.com/auth/realms/your-realm
-          jwk-set-uri: https://your-auth-server.com/auth/realms/your-realm/protocol/openid-connect/certs
+          issuer-uri: ${AUTH_SERVER_BASE_URL:https://your-auth-server.com}/auth/realms/${AUTH_REALM:your-realm}
+          jwk-set-uri: ${AUTH_SERVER_BASE_URL:https://your-auth-server.com}/auth/realms/${AUTH_REALM:your-realm}/protocol/openid-connect/certs
       client:
         registration:
           google:
@@ -35,10 +35,10 @@ spring:
               - write
         provider:
           pagila-auth:
-            authorization-uri: https://your-auth/-server.com/oauth2/authorize
-            token-uri: https://your-auth-server.com/oauth2/token
-            user-info-uri: https://your-auth-server.com/oauth2/userinfo
-            jwk-set-uri: https://your-auth-server.com/.well-known/jwks.json
+            authorization-uri: ${AUTH_SERVER_BASE_URL:https://your-auth-server.com}/oauth2/authorize
+            token-uri: ${AUTH_SERVER_BASE_URL:https://your-auth-server.com}/oauth2/token
+            user-info-uri: ${AUTH_SERVER_BASE_URL:https://your-auth-server.com}/oauth2/userinfo
+            jwk-set-uri: ${AUTH_SERVER_BASE_URL:https://your-auth-server.com}/.well-known/jwks.json
 jwt:
-  secret: your-secure-secret-key
-  expiration: 86400000
+  secret: ${JWT_SECRET:your-secure-secret-key}
+  expiration: ${JWT_EXPIRATION:86400000}
